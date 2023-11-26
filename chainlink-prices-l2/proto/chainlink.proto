@@ -1,0 +1,25 @@
+syntax = "proto3";
+
+package chainlink.v1;
+
+message AssetPair {
+  string description = 1;
+  string aggregator_address = 2;
+  string oracle_address = 3;
+}
+
+message Price {
+   AssetPair asset_pair = 1;
+    string price = 2;
+    string raw_price = 3;
+    int64 timestamp = 4;
+    string transmitter = 5;
+  }
+
+message Prices {
+  repeated Price items = 1;
+}
+  
+message AssetPairs {
+  repeated AssetPair items = 1;
+}

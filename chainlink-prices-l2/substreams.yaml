@@ -1,0 +1,37 @@
+specVersion: v0.1.0
+package:
+  name: 'chainlink_price_substream_l2'
+  version: v1.0.0
+
+imports:
+  entity: https://github.com/streamingfast/substreams-entity-change/releases/download/v1.1.0/substreams-entity-change-v1.1.0.spkg
+
+protobuf:
+  files:
+    - chainlink.proto
+
+  importPaths:
+    - ./proto
+
+binaries:
+  default:
+    type: wasm/rust-v1
+    file: ../target/wasm32-unknown-unknown/release/chainlink_price_substream.wasm
+
+modules:  
+ 
+  - name: get_chainlink_answers
+    kind: map
+    initialBlock: 2582
+    inputs:
+      - source: sf.ethereum.type.v2.Block
+    output:
+      type: proto:chainlink.v1.Prices
+ 
+  - name: graph_out
+    kind: map
+    initialBlock: 2582
+    inputs:
+      - map: get_chainlink_answers
+    output:
+      type: proto:sf.substreams.entity.v1.EntityChanges
